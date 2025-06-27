@@ -292,3 +292,189 @@ nav a {
     padding: 5px 10px;
   }
 }
+
+/* VISION BOARD STYLES */
+.vision-board {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(243, 181, 197, 0.15);
+}
+
+.vision-board h2 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: var(--accent-color);
+}
+
+.board-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.board-form input,
+.board-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  width: 100%;
+}
+
+.board-form button {
+  background: #f3b5c5;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.board-form button:hover {
+  background: #e899aa;
+}
+
+.boards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.board-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  width: 280px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.board-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.board-card .note {
+  margin-top: 10px;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ffb3c1;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.suggestions {
+  margin-top: 40px;
+  background: #fff0f5;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.suggestions ul {
+  list-style: heart;
+  padding-left: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .boards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .board-card {
+    width: 90%;
+  }
+}
+
+.board-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto 30px;
+}
+
+.board-form input[type="text"],
+.board-form input[type="file"],
+.board-form textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #f3b5c5;
+  border-radius: 10px;
+}
+
+.board-form button {
+  background-color: #f3b5c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.boards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.board {
+  background-color: #fff0f5;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.board img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.board h4 {
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.board p {
+  font-size: 0.95rem;
+  margin: 10px 0;
+}
+
+.delete-btn {
+  background: #ffb6c1;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  padding: 6px 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
