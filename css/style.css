@@ -1,0 +1,294 @@
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: #fff5f8;
+  color: #3a3a3a;
+}
+
+header {
+  background: #ffdbe8;
+  padding: 20px;
+  text-align: center;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #b03a7c;
+  font-weight: bold;
+}
+
+h1 {
+  color: #e75480;
+  font-family: 'Courier New', monospace;
+}
+
+main {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #f4c2c2;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #ffe9f2;
+  margin-top: 40px;
+}
+
+.image-widget {
+  margin: 2em 0;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(255, 192, 203, 0.2);
+}
+
+.image-widget img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+
+.image-widget.top-right {
+  float: right;
+  width: 40%;
+  margin-left: 20px;
+}
+
+.image-widget.middle-left {
+  float: left;
+  width: 45%;
+  margin-right: 20px;
+}
+
+.image-widget.bottom-full {
+  width: 100%;
+  margin-top: 40px;
+  clear: both;
+}
+
+blockquote {
+  font-style: italic;
+  margin: 1em 20px;
+  padding-left: 20px;
+  border-left: 3px solid #ffb6c1;
+  color: #7a4b5c;
+}
+
+.closing {
+  background: #fff0f5;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 40px;
+  box-shadow: 0 0 10px #fddce2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* === Animated Background Bubbles === */
+body {
+  position: relative;
+  overflow-x: hidden;
+  background: #fffafc;
+}
+
+.animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 192, 203, 0.3);
+  border-radius: 50%;
+  animation: floatUp 15s infinite;
+  bottom: -20px;
+  animation-timing-function: ease-in;
+}
+
+.bubble::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(255, 182, 193, 0.5), transparent 70%);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ========== Light Mode (Default) ========== */
+body {
+  background-color: #fffafc;
+  color: #111;
+  font-family: 'Segoe UI', sans-serif;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+header, footer, nav {
+  background-color: #fce4ec;
+  color: #111;
+}
+
+a {
+  color: #d63384;
+  text-decoration: none;
+}
+
+/* ========== Dark Mode ========== */
+body.dark-mode {
+  background-color: #000;
+  color: #fff;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode nav {
+  background-color: #111;
+  color: #fff;
+}
+
+body.dark-mode a {
+  color: #ffc0cb;
+}
+
+body.dark-mode .bubble {
+  opacity: 0.1; /* or display: none if you want no bubbles in dark mode */
+}
+
+/* Keep closing section text black even in dark mode */
+body.dark-mode .closing {
+  color: #000;
+}
+
+/* ========== Base Flexibility ========== */
+body, html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Widgets (top-right, middle-left, bottom) responsive placement */
+.image-widget {
+  margin: 2rem 0;
+}
+
+.image-widget img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* Blog preview layout for multiple articles */
+.blog-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.blog-preview article {
+  flex: 1 1 30%;
+  min-width: 250px;
+}
+
+/* Responsive nav and header text */
+header h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+nav a {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+/* Closing section polish */
+.closing {
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 16px;
+  line-height: 1.6;
+}
+
+/* ========== Mobile-Specific Layout ========== */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .intro h2 {
+    font-size: 1.4rem;
+  }
+
+  .intro p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .blog-preview {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .blog-preview article {
+    width: 90%;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bubble {
+    width: 8px !important;
+    height: 8px !important;
+    opacity: 0.2;
+  }
+
+  #toggleMode {
+    top: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+}
