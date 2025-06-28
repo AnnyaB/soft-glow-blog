@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact | Soft Glow Blog</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color, #fff5f7);
+      color: var(--text-color, #333);
+      margin: 0;
+      padding: 0;
+    }
+
+    .contact-container {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--card-bg, #fff0f5);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .contact-container h2 {
+      text-align: center;
+      color: var(--accent-color, #d88fa5);
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .contact-container p {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      background: #fff;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #f3b5c5;
+      box-shadow: 0 0 6px #f3b5c5aa;
+    }
+
+    button {
+      background: #f3b5c5;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e49aaa;
+    }
+
+    .success-message {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .error-message {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+     
+    <button id="toggleMode" style="position: fixed; top: 10px; right: 10px; z-index: 1000; padding: 6px 12px; border-radius: 8px; border: none; background: #f3b5c5; font-weight: bold; cursor: pointer;">
+  Toggle Mode for girlies
+</button>
+
+  <header>
+    <h1>Soft Glow Blog</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+      <a href="visionBoard.html">Vision Board</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="contact-container">
+      <h2>💌 Contact Me</h2>
+      <p>Have a sweet thought, suggestion, or brand collaboration? I'd love to hear from you ✨</p>
+
+      <form id="contactForm" method="POST" action="http://localhost:3000/send-message">
+
+        <label for="name">Your Name *</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Your Email *</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Your Message *</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <button type="submit">Send Message 📩</button>
+
+        <div id="formMessage"></div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Soft Glow Blog | Made with love for girlies ✨</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

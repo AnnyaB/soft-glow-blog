@@ -59,3 +59,41 @@ window.onscroll = function () {
 scrollBtn.addEventListener("click", function () {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
+
+
+/*contact form submission handling*/
+// Ensure the backend server is running at http://localhost:3000
+// and the endpoint /send-message is set up to handle POST requests.
+// The backend code should be similar to the one provided in the initial comment.
+// Make sure to replace the email credentials in the .env file with your own.
+// The backend should be set up to use nodemailer for sending emails.
+// The frontend code below will handle the form submission and display success or error messages.
+// This code assumes you have a backend server running that can handle the POST request to /send-message.
+// The backend should be set up to use nodemailer for sending emails.
+document.getElementById("contactForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  const response = await fetch("http://localhost:3000/send-message", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, message }),
+  });
+
+  const result = await response.json();
+  const messageBox = document.getElementById("formMessage");
+
+  if (result.success) {
+    messageBox.textContent = "Message sent successfully!";
+    messageBox.style.color = "green";
+    this.reset();
+  } else {
+    messageBox.textContent = "Something went wrong. Try again later.";
+    messageBox.style.color = "red";
+  }
+});
