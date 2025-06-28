@@ -567,3 +567,36 @@ body.dark-mode #scrollToTopBtn {
   border: 1px solid #f3b5c5;
   transform: scale(1.05);
 }
+
+/* Highlight Banner Aesthetic */
+.highlight-banner {
+  background: linear-gradient(to right, #ffe0ec, #fce1f0, #fff5f8);
+  color: #d64b8a;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 16px 20px;
+  border-bottom: 2px dashed #f3b5c5;
+  box-shadow: 0 4px 8px rgba(243, 181, 197, 0.3);
+  animation: fadeInBanner 1.8s ease-in-out;
+  position: relative;
+  z-index: 100;
+}
+
+@keyframes fadeInBanner {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fffdfd;
+}
