@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - Soft Glow Blog</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+    .about-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 40px;
+    }
+    .about-card {
+      background: var(--card-color);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      transition: transform 0.3s ease;
+    }
+    .about-card:hover {
+      transform: translateY(-6px);
+    }
+    .about-card h3 {
+      color: #e295b5;
+      margin-bottom: 12px;
+    }
+    .about-card p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    header, footer {
+      text-align: center;
+      padding: 20px;
+    }
+    .heading {
+      text-align: center;
+      padding-top: 30px;
+    }
+    .heading h1 {
+      font-size: 2.2rem;
+      color: #f3b5c5;
+    }
+  </style>
+</head>
+<body>
+
+
+    <button id="toggleMode" style="position: fixed; top: 10px; right: 10px; z-index: 1000; padding: 6px 12px; border-radius: 8px; border: none; background: #f3b5c5; font-weight: bold; cursor: pointer;">
+  Toggle Mode for girlies
+</button>
+
+  <header>
+    <h1>Soft Glow Blog</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+      <a href="visionBoard.html">Vision Board</a>
+      <a href="about.html" style="font-weight: bold; color: #e295b5;">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="heading">
+    <h1>About This Soft Glow Space ✨</h1>
+    <p style="max-width: 600px; margin: 0 auto; color: var(--text-muted-color);">A Pinterest-style space where divine femininity, cozy rituals, and aesthetic living come together.</p>
+  </section>
+
+  <div class="about-container">
+    <div class="about-card">
+      <h3>📖 Our Vibe</h3>
+      <p>Think early morning light, vintage books, glossy lip balms, linen sheets, clean girl dreams, balletcore playlists, and romantic rituals. We’re here to romanticize life like it’s a soft, sacred Pinterest board.</p>
+    </div>
+    <div class="about-card">
+      <h3>🌸 The Mission</h3>
+      <p>To inspire girls everywhere to embrace their softness, glow up without hustle, and live aesthetically aligned lives — while indirectly funding the core of the stunnin' girlies out there 🤍</p>
+    </div>
+    <div class="about-card">
+      <h3>💌 The Girl Behind The Glow</h3>
+      <p>I’m your Pinterest Girly Friend — a soft soul who codes, creates, and curates aesthetic content to help you fall in love with your feminine energy and dreamy daily life. I don’t just blog, I build soft revolutions.</p>
+    </div>
+    <div class="about-card">
+      <h3>📍 Why Pinterest Style?</h3>
+      <p>Because girlhood is magic, details are divine, and the world needs more gentle power. Pinterest aesthetics remind us to slow down, beautify the little moments, and live with intentional softness.</p>
+    </div>
+    <div class="about-card">
+      <h3>🎧 For the Girlies Who Crave...</h3>
+      <p>Pretty playlists, dreamy skincare, cozy academia, soft pink mood boards, gentle productivity, vision boards that look like heaven — and a life full of romantic, sacred little details 💕</p>
+    </div>
+    <div class="about-card">
+      <h3>✨ What This Blog Supports</h3>
+      <p>Every visit and share supports "Your Vision" and services dedicated to "That Life of yours". Beauty with purpose. Aesthetic with intention 🌺</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Soft Glow Blog | Made with love for girlies ✨</p>
+  </footer>
+    
+  <script src="script.js"></script>
+ 
+</body>
+</html>
