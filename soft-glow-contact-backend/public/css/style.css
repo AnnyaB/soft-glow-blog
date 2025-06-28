@@ -548,3 +548,22 @@ body.dark-mode #scrollToTopBtn {
   color: #fff;
   box-shadow: 0 4px 8px rgba(194, 24, 91, 0.5);
 }
+
+.nav-card {
+  background: #f3b5c5;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(243, 181, 197, 0.3);
+}
+
+.nav-card:hover {
+  background: #fff;
+  color: #d86b92;
+  border: 1px solid #f3b5c5;
+  transform: scale(1.05);
+}
