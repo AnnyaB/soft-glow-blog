@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>vision board</title>
-  <!-- Aesthetic Fonts -->
-<!-- Add this inside the <head> -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
-
-
-
-  <link rel="stylesheet" href="style.css"/>
-
+  <title>Mobile-Friendly Vision Board</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Your existing dark mode and responsive styles, adapted */
+    /* Your existing styles preserved */
     body {
       font-family: Arial, sans-serif;
       background: #f0f4f8;
@@ -54,7 +48,6 @@
       font-size: 1rem;
     }
 
-    /* Dark mode form controls */
     body.dark-mode #visionBoard input[type="file"],
     body.dark-mode #visionBoard input[type="text"],
     body.dark-mode #visionBoard select,
@@ -81,7 +74,6 @@
       cursor: pointer;
     }
 
-    /* Vision grid and cards */
     #visionGrid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -97,6 +89,7 @@
       padding: 0.5rem;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     body.dark-mode .vision-card {
@@ -128,8 +121,13 @@
       border: 1px solid #555;
     }
 
-    .vision-card button {
+    .vision-card .card-actions {
+      display: flex;
+      justify-content: space-between;
       margin-top: 0.5rem;
+    }
+
+    .vision-card button {
       background-color: #e74c3c;
       color: white;
       border: none;
@@ -137,9 +135,10 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
+      flex-grow: 1;
+      margin: 0 2px;
     }
 
-    /* Responsive for mobile */
     @media (max-width: 600px) {
       .vision-controls {
         flex-direction: column;
@@ -159,255 +158,399 @@
       .vision-controls button {
         width: 100%;
       }
+      
+      /* Mobile-specific adjustments */
+      .vision-card {
+        padding: 0.8rem;
+      }
+      
+      .card-actions {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      
+      .vision-card button {
+        padding: 0.6rem;
+        font-size: 1.1rem;
+      }
     }
+    
+    @media (max-width: 768px) and (min-width: 601px) {
+      #visionGrid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
     body.dark-mode .share-buttons a {
-  color: #fff !important;
-}
+      color: #fff !important;
+    }
 
-.heart-btn {
-  font-size: 1.4rem;
-  color: #ccc;
-  background: none;
-  border: none;
-  cursor: pointer;
-  align-self: flex-end;
-  transition: color 0.3s;
-}
+    .heart-btn {
+      font-size: 1.4rem;
+      color: #ccc;
+      background: none;
+      border: none;
+      cursor: pointer;
+      align-self: flex-end;
+      transition: color 0.3s;
+      padding: 0;
+      margin: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.heart-btn.favorited {
-  color: #e74c3c !important;
-}
+    .heart-btn.favorited {
+      color: #e74c3c !important;
+    }
 
-body.dark-mode .heart-btn {
-  color: #999;
-}
+    body.dark-mode .heart-btn {
+      color: #999;
+    }
 
-body.dark-mode .heart-btn.favorited {
-  color: #e74c3c !important; /* Ensure it's red even in dark mode */
-}
+    body.dark-mode .heart-btn.favorited {
+      color: #e74c3c !important;
+    }
 
-.vision-card[draggable="true"] {
-  cursor: grab;
-}
+    .vision-card[draggable="true"] {
+      cursor: grab;
+    }
 
-.vision-card.dragging {
-  opacity: 0.5;
-  border: 2px dashed #aaa;
-}
+    .vision-card.dragging {
+      opacity: 0.5;
+      border: 2px dashed #aaa;
+    }
 
-.vision-card.touch-dragging {
-  opacity: 0.6;
-  border: 2px dashed #aaa;
-  transform: scale(0.98);
-  z-index: 1000;
-  position: relative;
-}
-/* Pinterest-style pin shadow & roundness */
-.vision-card {
-  border-radius: 16px;
-  background: #fff;
-  break-inside: avoid;
-  padding: 0.8rem;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
+    .vision-card.touch-dragging {
+      opacity: 0.6;
+      border: 2px dashed #aaa;
+      transform: scale(0.98);
+      z-index: 1000;
+      position: relative;
+    }
+    
+    .pinterest-style {
+      border-radius: 16px;
+      background: #fff;
+      break-inside: avoid;
+      padding: 0.8rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
 
-/* Dark mode card styling */
-body.dark-mode .vision-card {
-  background: #2e2e2e;
-  color: #f0f0f0;
-  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.1);
-}
+    body.dark-mode .pinterest-style {
+      background: #2e2e2e;
+      color: #f0f0f0;
+      box-shadow: 0 6px 16px rgba(255, 255, 255, 0.1);
+    }
 
-/* Notes inside cards */
-.vision-card textarea {
-  font-size: 0.9rem;
-  border: none;
-  background: #fdf6f8;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  width: 100%;
-}
+    .vision-card textarea {
+      font-size: 0.9rem;
+      border: none;
+      background: #fdf6f8;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      width: 100%;
+    }
 
-body.dark-mode .vision-card textarea {
-  background: #3b3b3b;
-  color: #fff;
-}
+    body.dark-mode .vision-card textarea {
+      background: #3b3b3b;
+      color: #fff;
+    }
 
-/* Responsive title styling */
-h2 {
-  font-size: 2.2rem;
-  color: #d75d8a;
-  margin-bottom: 1rem;
-}
+    h2 {
+      font-size: 2.2rem;
+      color: #d75d8a;
+      margin-bottom: 1rem;
+    }
 
-body.dark-mode h2 {
-  color: #f8c2d8;
-}
+    body.dark-mode h2 {
+      color: #f8c2d8;
+    }
 
-/* Subtle transition for mood */
-body,
-.vision-card,
-textarea,
-button {
-  transition: all 0.3s ease-in-out;
-}
-.vision-card textarea {
-  font-family: 'Quicksand', sans-serif;
-  line-height: 1.5;
-}
+    body,
+    .vision-card,
+    textarea,
+    button {
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .vision-card textarea {
+      font-family: 'Quicksand', sans-serif;
+      line-height: 1.5;
+    }
 
+    header nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
 
-body.dark-mode header nav a[href="index.html"]:hover {
-  background-color: #fff;
-  color: #222 !important;
-}
+    header nav a {
+      text-decoration: none;
+      color: #333;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background 0.3s, color 0.3s;
+    }
 
-/* Center the nav and ensure white text in dark mode */
-header nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+    header nav a:hover {
+      background-color: #f3b5c5;
+      color: white;
+    }
 
-header nav a {
-  text-decoration: none;
-  color: #333;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: background 0.3s, color 0.3s;
-}
+    body.dark-mode header nav a[href="index.html"] {
+      color: white !important;
+    }
 
-/* Hover effect for all modes */
-header nav a:hover {
-  background-color: #f3b5c5;
-  color: white;
-}
+    body.dark-mode header nav a[href="index.html"]:hover {
+      background-color: #fff;
+      color: #222 !important;
+    }
 
-/* DARK MODE: make the "Home" link white */
-body.dark-mode header nav a[href="index.html"] {
-  color: white !important;
-}
+    nav a {
+      color: #d64b8a !important;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      font-family: 'Playfair Display', serif;
+      padding: 8px 14px;
+      border: 2px solid #d64b8a;
+      border-radius: 8px;
+      background-color: #ffe6f0;
+      transition: all 0.3s ease;
+      display: inline-block;
+      margin-top: 10px;
+    }
 
-/* DARK MODE: optional hover effect for contrast */
-body.dark-mode header nav a[href="index.html"]:hover {
-  background-color: #fff;
-  color: #222 !important;
-}
+    body.dark-mode nav a {
+      color: #d64b8a !important;
+      border-color: #d64b8a;
+      background-color: #2e0f22;
+    }
 
-/* General aesthetic link style */
-nav a {
-  color: #d64b8a !important;
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: bold;
-  font-family: 'Playfair Display', serif;
-  padding: 8px 14px;
-  border: 2px solid #d64b8a;
-  border-radius: 8px;
-  background-color: #ffe6f0;
-  transition: all 0.3s ease;
-  display: inline-block;
-  margin-top: 10px;
-}
-
-/* Keep the same styling in dark mode */
-body.dark-mode nav a {
-  color: #d64b8a !important;
-  border-color: #d64b8a;
-  background-color: #2e0f22; /* dark rosy background */
-}
-
-/* Optional: Add hover effect */
-nav a:hover {
-  background-color: #f3b5c5;
-  color: white !important;
-}
-
+    nav a:hover {
+      background-color: #f3b5c5;
+      color: white !important;
+    }
+    
+    /* Mobile notification */
+    .mobile-notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 14px;
+      z-index: 1000;
+      display: none;
+    }
+    
+    /* Touch instructions */
+    .touch-instructions {
+      text-align: center;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin: 10px auto;
+      max-width: 500px;
+    }
+    
+    body.dark-mode .touch-instructions {
+      background: #333;
+      color: #eee;
+    }
+    
+    /* Mobile tap area */
+    .mobile-tap-area {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      z-index: 1000;
+      display: none;
+      font-size: 16px;
+    }
+    
+    /* New mobile-specific elements */
+    .mobile-help-btn {
+      background: #9b59b6;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 10px auto;
+      display: block;
+    }
+    
+    .mobile-help-content {
+      display: none;
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      text-align: left;
+    }
+    
+    body.dark-mode .mobile-help-content {
+      background: #333;
+    }
+    
+    .mobile-help-content h3 {
+      color: #d75d8a;
+      margin-top: 0;
+    }
+    
+    .mobile-help-content ul {
+      padding-left: 20px;
+    }
+    
+    .mobile-help-content li {
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
 
   <button id="toggleMode" style="position: fixed; top: 10px; right: 10px; z-index: 1000; padding: 6px 12px; border-radius: 8px; border: none; background: #f3b5c5; font-weight: bold; cursor: pointer;">
-  Toggle Mode for girlies
-</button>
-
+    Toggle Mode for girlies
+  </button>
   
-<header style="text-align: center; padding: 30px 20px;">
-  <img src="images/ThePinkGirlLifeLogo.jpg" alt="The Pink Girl Life Logo" style="max-width: 220px; height: auto; display: block; margin: 0 auto 10px; border-radius: 18px; box-shadow: 0 6px 20px rgba(243, 181, 197, 0.4);">
-  <h1 style="font-family: 'Playfair Display', serif; font-weight: 600; color: #d86b92; font-size: 2.2em; margin: 10px 0 5px;">The Pink Girl Life</h1>
-  <nav style="margin-top: 15px;">
-    <a href="index.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Home</a>
-    <a href="blog.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Blog</a>
-    <a href="about.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">About</a>
-    <a href="contact.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Contact</a>
-  </nav>
-</header>
-
-
-
-
-<section id="visionBoard">
+  <div class="toast" id="actionToast">Action completed!</div>
+  <div class="mobile-notification" id="mobileNotification">Tap and hold to drag items</div>
   
-  <h2>Create Your Vision Board</h2>
-  <div class="vision-controls">
-    <select id="boardSelector" aria-label="Select vision board">
-      <option value="default">Default Board</option>
-    </select>
-    <input type="text" id="newBoardName" placeholder="New board name..." aria-label="New board name" />
-    <button onclick="createBoard()" aria-label="Create new board">Create Board</button>
-    <button id="deleteBoardBtn" aria-label="Delete current board" style="background:#e74c3c; color:white; border:none; padding:0.5rem; border-radius:4px; cursor:pointer;">Delete Board</button>
-    <input type="file" id="imageUploader" accept="image/*" aria-label="Upload image for vision board" />
-    <button onclick="toggleCollageMode()" aria-label="Toggle collage mode">Toggle Collage Mode</button>
-    <button id="viewFavoritesBtn" aria-label="View only favorite vision cards">
-  ❤️ View Favorites
-</button>
+  <header style="text-align: center; padding: 30px 20px;">
+    <img src="images/ThePinkGirlLifeLogo.jpg" alt="The Pink Girl Life Logo" style="max-width: 220px; height: auto; display: block; margin: 0 auto 10px; border-radius: 18px; box-shadow: 0 6px 20px rgba(243, 181, 197, 0.4);">
+    <h1 style="font-family: 'Playfair Display', serif; font-weight: 600; color: #d86b92; font-size: 2.2em; margin: 10px 0 5px;">The Pink Girl Life</h1>
+    <nav style="margin-top: 15px;">
+      <a href="index.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Home</a>
+      <a href="blog.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Blog</a>
+      <a href="about.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">About</a>
+      <a href="contact.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Contact</a>
+    </nav>
+  </header>
 
-  </div>
+  <section id="visionBoard">
+    <h2>Create Your Vision Board</h2>
+    
+    <div class="touch-instructions">
+      <p><i class="fas fa-info-circle"></i> Mobile Tips: Tap images to add notes, tap heart to favorite, tap and hold to drag</p>
+    </div>
+    
+    <button class="mobile-help-btn" onclick="toggleMobileHelp()">
+      <i class="fas fa-mobile-alt"></i> Mobile Help
+    </button>
+    
+    <div class="mobile-help-content" id="mobileHelp">
+      <h3>Mobile Guide</h3>
+      <ul>
+        <li><i class="fas fa-heart"></i> <strong>Favorite:</strong> Tap the heart icon at the top-right of any card</li>
+        <li><i class="fas fa-comment"></i> <strong>Add Note:</strong> Tap on any image to focus the note field</li>
+        <li><i class="fas fa-arrows-alt"></i> <strong>Move Cards:</strong> Tap and hold on a card, then drag to reposition</li>
+        <li><i class="fas fa-plus"></i> <strong>Add Images:</strong> Use the upload button at the top</li>
+        <li><i class="fas fa-star"></i> <strong>Favorites:</strong> Use the "View Favorites" button to filter</li>
+      </ul>
+    </div>
+    
+    <div class="vision-controls">
+      <select id="boardSelector" aria-label="Select vision board">
+        <option value="default">Default Board</option>
+      </select>
+      <input type="text" id="newBoardName" placeholder="New board name..." aria-label="New board name" />
+      <button onclick="createBoard()" aria-label="Create new board">Create Board</button>
+      <button id="deleteBoardBtn" aria-label="Delete current board" style="background:#e74c3c; color:white; border:none; padding:0.5rem; border-radius:4px; cursor:pointer;">Delete Board</button>
+      <input type="file" id="imageUploader" accept="image/*" aria-label="Upload image for vision board" />
+      <button onclick="toggleCollageMode()" aria-label="Toggle collage mode">Toggle Collage Mode</button>
+      <button id="viewFavoritesBtn" aria-label="View only favorite vision cards">
+        ❤️ View Favorites
+      </button>
+    </div>
 
-  <div class="share-buttons" style="text-align:center; margin-top: 1.5rem;">
-  <h3>Share Your Vision Board</h3>
-  <a href="#" id="whatsappShare" target="_blank" style="margin: 0 10px;">📱 WhatsApp</a>
-  <a href="#" id="twitterShare" target="_blank" style="margin: 0 10px;">🐦 Twitter</a>
-  <a href="#" id="linkedinShare" target="_blank" style="margin: 0 10px;">💼 LinkedIn</a>
-  <a href="#" id="snapchatShare" target="_blank" style="margin: 0 10px;">👻 Snapchat</a>
-  <a href="#" id="instagramShare" target="_blank" style="margin: 0 10px;">📸 Instagram</a>
-</div>
+    <div class="share-buttons" style="text-align:center; margin-top: 1.5rem;">
+      <h3>Share Your Vision Board</h3>
+      <a href="#" id="whatsappShare" target="_blank" style="margin: 0 10px;">📱 WhatsApp</a>
+      <a href="#" id="twitterShare" target="_blank" style="margin: 0 10px;">🐦 Twitter</a>
+      <a href="#" id="linkedinShare" target="_blank" style="margin: 0 10px;">💼 LinkedIn</a>
+      <a href="#" id="snapchatShare" target="_blank" style="margin: 0 10px;">👻 Snapchat</a>
+      <a href="#" id="instagramShare" target="_blank" style="margin: 0 10px;">📸 Instagram</a>
+    </div>
 
-
-  <div id="visionGrid" aria-live="polite" aria-relevant="additions removals"></div>
-</section>
+    <div id="visionGrid" aria-live="polite" aria-relevant="additions removals"></div>
+  </section>
 
 <script>
+  // Mobile detection
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  
+  // Toast notification function
+  function showToast(message) {
+    const toast = document.getElementById('actionToast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 2000);
+  }
+  
+  // Toggle mobile help
+  function toggleMobileHelp() {
+    const helpContent = document.getElementById('mobileHelp');
+    helpContent.style.display = helpContent.style.display === 'block' ? 'none' : 'block';
+  }
+  
+  // Mobile-specific fixes
   const imageUploader = document.getElementById('imageUploader');
   const visionGrid = document.getElementById('visionGrid');
   const boardSelector = document.getElementById('boardSelector');
   const newBoardNameInput = document.getElementById('newBoardName');
   const deleteBoardBtn = document.getElementById('deleteBoardBtn');
   const STORAGE_KEY = 'visionBoardsStorage';
+  const mobileNotification = document.getElementById('mobileNotification');
 
   let boards = {};
   let currentBoard = 'default';
   let collageMode = false;
+  let dragStartTime = 0;
+  const DRAG_THRESHOLD = 300; // ms for long press to count as drag start
 
-function saveBoardsToStorage() {
-  const serializableBoards = {};
-  for (const board in boards) {
-    serializableBoards[board] = boards[board].map(card => {
-      return {
-        img: card.querySelector('img').src,
-        note: card.querySelector('textarea').value,
-        favorite: card.isFavorite ? card.isFavorite() : false
-      };
-    });
+  function saveBoardsToStorage() {
+    const serializableBoards = {};
+    for (const board in boards) {
+      serializableBoards[board] = boards[board].map(card => {
+        return {
+          img: card.querySelector('img').src,
+          note: card.querySelector('textarea').value,
+          favorite: card.querySelector('.heart-btn').classList.contains('favorited')
+        };
+      });
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(serializableBoards));
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(serializableBoards));
-}
-
 
   function loadBoardsFromStorage() {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -423,12 +566,9 @@ function saveBoardsToStorage() {
         option.textContent = boardName;
         boardSelector.appendChild(option);
         parsed[boardName].forEach(item => {
-  const card = createVisionCard(item.img, item.note, item.favorite);
-  boards[boardName].push(card);
-});
-
-
-        
+          const card = createVisionCard(item.img, item.note, item.favorite);
+          boards[boardName].push(card);
+        });
       });
       return true;
     } catch {
@@ -437,172 +577,245 @@ function saveBoardsToStorage() {
   }
 
   function createVisionCard(imgSrc, noteText = '', isFavorite = false) {
-  const card = document.createElement('div');
-  card.className = 'vision-card';
+    const card = document.createElement('div');
+    card.className = 'vision-card pinterest-style';
 
-  const heartBtn = document.createElement('button');
-  heartBtn.className = 'heart-btn';
-  heartBtn.innerHTML = '♥';
+    // Heart button for favoriting (positioned absolutely)
+    const heartBtn = document.createElement('button');
+    heartBtn.className = 'heart-btn';
+    heartBtn.innerHTML = '♥';
+    heartBtn.style.position = 'absolute';
+    heartBtn.style.top = '10px';
+    heartBtn.style.right = '10px';
+    heartBtn.style.zIndex = '10';
+    
+    if (isFavorite) {
+      heartBtn.classList.add('favorited');
+    }
 
-  if (isFavorite) {
-    heartBtn.classList.add('favorited');
+    heartBtn.addEventListener('click', () => {
+      heartBtn.classList.toggle('favorited');
+      saveBoardsToStorage();
+      showToast(heartBtn.classList.contains('favorited') ? 'Added to favorites!' : 'Removed from favorites');
+    });
+    card.appendChild(heartBtn);
+
+    // Image element with tap to focus note
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.alt = 'Vision board image';
+    
+    // Mobile: tap image to focus note field
+    if (isMobile) {
+      img.addEventListener('click', function() {
+        const textarea = card.querySelector('textarea');
+        if (textarea) {
+          textarea.focus();
+          // Scroll to the textarea for better visibility
+          textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
+    card.appendChild(img);
+
+    // Textarea for notes
+    const textarea = document.createElement('textarea');
+    textarea.value = noteText;
+    textarea.placeholder = 'Write a note...';
+    textarea.addEventListener('input', () => {
+      saveBoardsToStorage();
+      if (textarea.value.trim()) {
+        showToast('Note saved!');
+      }
+    });
+    card.appendChild(textarea);
+
+    // Card actions container
+    const actionsDiv = document.createElement('div');
+    actionsDiv.className = 'card-actions';
+    
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.addEventListener('click', () => {
+      visionGrid.removeChild(card);
+      const idx = boards[currentBoard].indexOf(card);
+      if (idx > -1) {
+        boards[currentBoard].splice(idx, 1);
+        saveBoardsToStorage();
+        showToast('Item deleted!');
+      }
+    });
+    
+    // Mobile tap area overlay to prevent accidental drags
+    if (isMobile) {
+      const tapArea = document.createElement('div');
+      tapArea.className = 'mobile-tap-area';
+      tapArea.addEventListener('click', (e) => {
+        // Prevent drag action on taps
+        e.stopPropagation();
+      });
+      card.appendChild(tapArea);
+    }
+    
+    actionsDiv.appendChild(deleteBtn);
+    card.appendChild(actionsDiv);
+
+    return card;
   }
 
-  heartBtn.addEventListener('click', () => {
-    heartBtn.classList.toggle('favorited');
-    saveBoardsToStorage(); // update localStorage on toggle
-  });
-  card.appendChild(heartBtn);
+  // Enhanced touch event handlers for mobile
+  let touchStartY = 0;
+  let draggingCard = null;
+  let touchTimer = null;
+  let touchStartElement = null;
 
-  const img = document.createElement('img');
-  img.src = imgSrc;
-  card.appendChild(img);
-
-  const textarea = document.createElement('textarea');
-  textarea.value = noteText;
-  textarea.placeholder = 'Write a note...';
-  textarea.addEventListener('input', () => saveBoardsToStorage());
-  card.appendChild(textarea);
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = 'Delete';
-  deleteBtn.addEventListener('click', () => {
-    visionGrid.removeChild(card);
-    const idx = boards[currentBoard].indexOf(card);
-    if (idx > -1) {
-      boards[currentBoard].splice(idx, 1);
-      saveBoardsToStorage();
+  function handleTouchStart(e) {
+    // Ignore if touch started on interactive element
+    if (e.target.tagName === 'TEXTAREA' || 
+        e.target.tagName === 'BUTTON' || 
+        e.target.tagName === 'INPUT') {
+      return;
     }
-  });
-  card.appendChild(deleteBtn);
 
-  // Define favorite getter for saving
-  card.isFavorite = () => heartBtn.classList.contains('favorited');
+    touchStartElement = e.target;
+    draggingCard = this;
+    touchStartY = e.touches[0].clientY;
+    
+    // Set timer for long press
+    touchTimer = setTimeout(() => {
+      if (draggingCard) {
+        draggingCard.classList.add('touch-dragging');
+        mobileNotification.style.display = 'block';
+        setTimeout(() => {
+          mobileNotification.style.display = 'none';
+        }, 2000);
+      }
+    }, DRAG_THRESHOLD);
+    
+    e.preventDefault();
+  }
 
-  return card;
-}
+  function handleTouchMove(e) {
+    if (!draggingCard) return;
+    
+    // Cancel the long press if movement detected early
+    if (touchTimer) {
+      clearTimeout(touchTimer);
+      touchTimer = null;
+    }
+    
+    if (!draggingCard.classList.contains('touch-dragging')) return;
 
-// Drag-and-drop reordering
-let dragSrcEl = null;
+    const touchY = e.touches[0].clientY;
+    const deltaY = touchY - touchStartY;
+    draggingCard.style.transform = `translateY(${deltaY}px)`;
 
-function handleDragStart(e) {
-  dragSrcEl = this;
-  this.classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/html', this.outerHTML);
-}
+    const rect = draggingCard.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
 
-function handleDragOver(e) {
-  e.preventDefault(); // Necessary for drop to work
-  e.dataTransfer.dropEffect = 'move';
-  return false;
-}
+    const cards = Array.from(visionGrid.children).filter(el => el !== draggingCard);
+    for (const card of cards) {
+      const cardRect = card.getBoundingClientRect();
+      if (touchY > cardRect.top && touchY < cardRect.bottom) {
+        if (touchY < midY) {
+          visionGrid.insertBefore(draggingCard, card);
+        } else {
+          visionGrid.insertBefore(draggingCard, card.nextSibling);
+        }
+        break;
+      }
+    }
+  }
 
-function handleDrop(e) {
-  e.stopPropagation(); // stops the browser from redirecting.
-  if (dragSrcEl !== this) {
+  function handleTouchEnd(e) {
+    if (touchTimer) {
+      clearTimeout(touchTimer);
+      touchTimer = null;
+    }
+    
+    if (!draggingCard) return;
+    
+    if (draggingCard.classList.contains('touch-dragging')) {
+      draggingCard.style.transform = '';
+      draggingCard.classList.remove('touch-dragging');
+      
+      // Save new order
+      boards[currentBoard] = Array.from(visionGrid.children);
+      saveBoardsToStorage();
+      showToast('Board order saved!');
+    } else {
+      // This was a tap, so we might want to focus the textarea
+      if (touchStartElement === draggingCard.querySelector('img')) {
+        const textarea = draggingCard.querySelector('textarea');
+        textarea.focus();
+        textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+    
+    draggingCard = null;
+    touchStartElement = null;
+  }
+
+  function attachCardEvents(card) {
+    // Desktop drag events
+    card.setAttribute('draggable', true);
+    card.addEventListener('dragstart', handleDragStart);
+    card.addEventListener('dragover', handleDragOver);
+    card.addEventListener('drop', handleDrop);
+    card.addEventListener('dragend', handleDragEnd);
+
+    // Touch events for mobile
+    card.addEventListener('touchstart', handleTouchStart, { passive: false });
+    card.addEventListener('touchmove', handleTouchMove, { passive: false });
+    card.addEventListener('touchend', handleTouchEnd, { passive: false });
+    card.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+  }
+
+  // Desktop drag-and-drop handlers
+  function handleDragStart(e) {
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.outerHTML);
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+  }
+
+  function handleDrop(e) {
+    e.stopPropagation();
+    if (this.classList.contains('dragging')) return;
+    
     const dropHTML = e.dataTransfer.getData('text/html');
     this.insertAdjacentHTML('beforebegin', dropHTML);
     const dropElem = this.previousSibling;
-
-    // Remove old dragged element
-    visionGrid.removeChild(dragSrcEl);
-
-    // Re-attach event listeners
+    
+    visionGrid.removeChild(document.querySelector('.dragging'));
+    
     attachCardEvents(dropElem);
-
-    // Update board array
     boards[currentBoard] = Array.from(visionGrid.children);
     saveBoardsToStorage();
+    return false;
   }
-  return false;
-}
 
-function handleDragEnd() {
-  this.classList.remove('dragging');
-}
-
-function attachCardEvents(card) {
-  card.setAttribute('draggable', true);
-  card.addEventListener('dragstart', handleDragStart);
-  card.addEventListener('dragover', handleDragOver);
-  card.addEventListener('drop', handleDrop);
-  card.addEventListener('dragend', handleDragEnd);
-}
-
-// After rendering or creating cards, call this:
-function enableDragAndDrop() {
-  if (!boards[currentBoard]) return;
-  boards[currentBoard].forEach(card => attachCardEvents(card));
-}
-
-// --- Touch-based drag for mobile ---
-let touchStartY = 0;
-let draggingCard = null;
-
-function handleTouchStart(e) {
-  draggingCard = this;
-  draggingCard.classList.add('touch-dragging');
-  touchStartY = e.touches[0].clientY;
-  e.preventDefault();
-}
-
-function handleTouchMove(e) {
-  if (!draggingCard) return;
-
-  const touchY = e.touches[0].clientY;
-  const deltaY = touchY - touchStartY;
-  draggingCard.style.transform = `translateY(${deltaY}px)`;
-
-  const rect = draggingCard.getBoundingClientRect();
-  const midY = rect.top + rect.height / 2;
-
-  const cards = Array.from(visionGrid.children).filter(el => el !== draggingCard);
-  for (const card of cards) {
-    const cardRect = card.getBoundingClientRect();
-    if (touchY > cardRect.top && touchY < cardRect.bottom) {
-      if (touchY < midY) {
-        visionGrid.insertBefore(draggingCard, card);
-      } else {
-        visionGrid.insertBefore(draggingCard, card.nextSibling);
-      }
-      break;
-    }
+  function handleDragEnd() {
+    this.classList.remove('dragging');
   }
-}
 
-function handleTouchEnd(e) {
-  if (!draggingCard) return;
-  draggingCard.style.transform = '';
-  draggingCard.classList.remove('touch-dragging');
-  draggingCard = null;
-
-  // Save new order
-  boards[currentBoard] = Array.from(visionGrid.children);
-  saveBoardsToStorage();
-}
-
-function attachCardEvents(card) {
-  // Desktop drag
-  card.setAttribute('draggable', true);
-  card.addEventListener('dragstart', handleDragStart);
-  card.addEventListener('dragover', handleDragOver);
-  card.addEventListener('drop', handleDrop);
-  card.addEventListener('dragend', handleDragEnd);
-
-  // Touch drag for mobile
-  card.addEventListener('touchstart', handleTouchStart, { passive: false });
-  card.addEventListener('touchmove', handleTouchMove, { passive: false });
-  card.addEventListener('touchend', handleTouchEnd, { passive: false });
-}
+  function enableDragAndDrop() {
+    if (!boards[currentBoard]) return;
+    boards[currentBoard].forEach(card => attachCardEvents(card));
+  }
 
   function renderBoard(boardName) {
-  visionGrid.innerHTML = '';
-  if (!boards[boardName]) boards[boardName] = [];
-  boards[boardName].forEach(card => visionGrid.appendChild(card));
-  enableDragAndDrop();
-}
-
+    visionGrid.innerHTML = '';
+    if (!boards[boardName]) boards[boardName] = [];
+    boards[boardName].forEach(card => visionGrid.appendChild(card));
+    enableDragAndDrop();
+  }
 
   function createBoard() {
     const name = newBoardNameInput.value.trim();
@@ -624,6 +837,7 @@ function attachCardEvents(card) {
     renderBoard(currentBoard);
     newBoardNameInput.value = '';
     saveBoardsToStorage();
+    showToast(`Board "${name}" created!`);
   }
 
   function toggleCollageMode() {
@@ -637,39 +851,41 @@ function attachCardEvents(card) {
         child.style.margin = collageMode ? '5px' : '';
       }
     });
+    showToast(`Collage mode ${collageMode ? 'on' : 'off'}`);
   }
 
   let showingFavorites = false;
+  const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
+  viewFavoritesBtn.addEventListener('click', () => {
+    showingFavorites = !showingFavorites;
 
-const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
-viewFavoritesBtn.addEventListener('click', () => {
-  showingFavorites = !showingFavorites;
-
-  if (showingFavorites) {
-    viewFavoritesBtn.textContent = '🔙 Back to All';
-    renderFavoritesOnly();
-  } else {
-    viewFavoritesBtn.textContent = '❤️ View Favorites';
-    renderBoard(currentBoard);
-  }
-});
-
-function renderFavoritesOnly() {
-  visionGrid.innerHTML = '';
-  if (!boards[currentBoard]) return;
-  boards[currentBoard].forEach(card => {
-    if (card.isFavorite && card.isFavorite()) {
-      visionGrid.appendChild(card);
+    if (showingFavorites) {
+      viewFavoritesBtn.textContent = '🔙 Back to All';
+      renderFavoritesOnly();
+      showToast('Showing favorites only');
+    } else {
+      viewFavoritesBtn.textContent = '❤️ View Favorites';
+      renderBoard(currentBoard);
+      showToast('Showing all items');
     }
   });
-  enableDragAndDrop();
-}
 
+  function renderFavoritesOnly() {
+    visionGrid.innerHTML = '';
+    if (!boards[currentBoard]) return;
+    boards[currentBoard].forEach(card => {
+      if (card.querySelector('.heart-btn').classList.contains('favorited')) {
+        visionGrid.appendChild(card);
+      }
+    });
+    enableDragAndDrop();
+  }
 
-
+  // Initialize the board
   boardSelector.addEventListener('change', () => {
     currentBoard = boardSelector.value;
     renderBoard(currentBoard);
+    showToast(`Switched to "${currentBoard}" board`);
   });
 
   imageUploader.addEventListener('change', (e) => {
@@ -677,13 +893,13 @@ function renderFavoritesOnly() {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = function(event) {
-  const card = createVisionCard(event.target.result);
-  boards[currentBoard].push(card);
-  visionGrid.appendChild(card);
-  saveBoardsToStorage();
-  enableDragAndDrop();
-};
- 
+        const card = createVisionCard(event.target.result);
+        boards[currentBoard].push(card);
+        visionGrid.appendChild(card);
+        saveBoardsToStorage();
+        enableDragAndDrop();
+        showToast('Image added to board!');
+      };
       reader.readAsDataURL(file);
     }
   });
@@ -695,16 +911,21 @@ function renderFavoritesOnly() {
     }
     if (confirm(`Are you sure you want to delete the board "${currentBoard}"? This action cannot be undone.`)) {
       delete boards[currentBoard];
-      // Remove from selector
       const optionToRemove = Array.from(boardSelector.options).find(opt => opt.value === currentBoard);
       if (optionToRemove) boardSelector.removeChild(optionToRemove);
 
-      // Switch to default board
       currentBoard = 'default';
       boardSelector.value = 'default';
       renderBoard(currentBoard);
       saveBoardsToStorage();
+      showToast(`Board deleted!`);
     }
+  });
+
+  // Dark mode toggle
+  document.getElementById('toggleMode').addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+    showToast(`Dark mode ${document.body.classList.contains('dark-mode') ? 'on' : 'off'}`);
   });
 
   // Initialize boards on page load
@@ -713,10 +934,8 @@ function renderFavoritesOnly() {
     currentBoard = 'default';
   }
   renderBoard(currentBoard);
-</script>
-
-
- <script>
+  
+  // Setup social sharing
   const pageUrl = encodeURIComponent(window.location.href);
   const text = encodeURIComponent("Check out my vision board!");
   
@@ -733,17 +952,12 @@ function renderFavoritesOnly() {
     `https://www.snapchat.com/scan?attachmentUrl=${pageUrl}`;
 
   document.getElementById("instagramShare").href =
-    `https://www.instagram.com/`; // Instagram does not support direct web sharing
+    `https://www.instagram.com/`;
 
-  // Optional: alert users about Instagram limitations
   document.getElementById("instagramShare").addEventListener('click', function(e) {
+    e.preventDefault();
     alert("Instagram doesn't support web sharing directly. Please share manually using the Instagram app.");
   });
 </script>
-
-
-  <script src="script.js"></script>
-
 </body>
-
 </html>
