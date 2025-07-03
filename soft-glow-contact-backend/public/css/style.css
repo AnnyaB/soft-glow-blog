@@ -607,3 +607,35 @@ header img:hover {
   transform: scale(1.03);
   box-shadow: 0 10px 25px rgba(243, 181, 197, 0.6);
 }
+
+@media screen and (max-width: 600px) {
+  header img {
+    max-width: 160px;
+  }
+
+  header h1 {
+    font-size: 1.6em;
+    padding: 0 10px;
+  }
+
+  header nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  header nav a {
+    margin: 6px 0;
+    font-size: 1em;
+    background-color: #fff8fc;
+    padding: 8px 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(243, 181, 197, 0.2);
+    transition: background 0.3s ease;
+  }
+
+  header nav a:hover {
+    background-color: #fce4ec;
+  }
+}
