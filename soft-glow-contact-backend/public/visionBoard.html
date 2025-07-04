@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mobile-Friendly Vision Board</title>
+  <title>Vision Board</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Your existing styles preserved */
+    /* Your original styles preserved */
     body {
       font-family: Arial, sans-serif;
       background: #f0f4f8;
@@ -90,6 +90,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     body.dark-mode .vision-card {
@@ -370,16 +371,6 @@
       color: #eee;
     }
     
-    /* Mobile tap area */
-    .mobile-tap-area {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 5;
-    }
-    
     /* Toast notification */
     .toast {
       position: fixed;
@@ -432,6 +423,121 @@
     
     .mobile-help-content li {
       margin-bottom: 8px;
+    }
+    
+    /* DRAG AND DROP ENHANCEMENTS */
+    /* Drag handle */
+    .drag-handle {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      z-index: 10;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .drag-handle i {
+      color: #d64b8a;
+      font-size: 14px;
+    }
+    
+    /* Visual feedback during drag */
+    .vision-card.dragging {
+      transform: scale(1.02);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    
+    .drop-target {
+      border: 2px dashed #d64b8a;
+      background-color: rgba(214, 75, 138, 0.1);
+    }
+    
+    /* Larger touch targets for mobile */
+    .vision-card .card-actions button {
+      padding: 0.7rem;
+      min-height: 44px; /* Apple recommends at least 44px */
+    }
+    
+    /* Heart button size for touch */
+    .heart-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+    
+    /* Prevent text selection on touch devices */
+    .vision-card {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    /* Image tap area */
+    .image-container {
+      position: relative;
+    }
+    
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      cursor: pointer;
+    }
+    
+    .vision-card:hover .image-overlay {
+      opacity: 1;
+    }
+    
+    .image-overlay i {
+      color: white;
+      font-size: 2rem;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    
+    /* Mobile specific: always show overlay on mobile */
+    @media (max-width: 768px) {
+      .image-overlay {
+        opacity: 1;
+        background: rgba(0,0,0,0.1);
+      }
+      
+      .image-overlay i {
+        font-size: 1.5rem;
+      }
+    }
+    
+    /* Drag instruction */
+    .drag-instruction {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 4px;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -537,6 +643,9 @@
   let collageMode = false;
   let dragStartTime = 0;
   const DRAG_THRESHOLD = 300; // ms for long press to count as drag start
+  let draggingCard = null;
+  let placeholder = null;
+  let touchStartY = 0;
 
   function saveBoardsToStorage() {
     const serializableBoards = {};
@@ -580,6 +689,13 @@
     const card = document.createElement('div');
     card.className = 'vision-card pinterest-style';
 
+    // Drag handle
+    const dragHandle = document.createElement('div');
+    dragHandle.className = 'drag-handle';
+    dragHandle.innerHTML = '<i class="fas fa-arrows-alt"></i>';
+    dragHandle.addEventListener('mousedown', handleDragStart);
+    card.appendChild(dragHandle);
+
     // Heart button for favoriting (positioned absolutely)
     const heartBtn = document.createElement('button');
     heartBtn.className = 'heart-btn';
@@ -587,7 +703,7 @@
     heartBtn.style.position = 'absolute';
     heartBtn.style.top = '10px';
     heartBtn.style.right = '10px';
-    heartBtn.style.zIndex = '10';
+    heartBtn.style.zIndex = '20';
     
     if (isFavorite) {
       heartBtn.classList.add('favorited');
@@ -600,23 +716,44 @@
     });
     card.appendChild(heartBtn);
 
-    // Image element with tap to focus note
+    // Image container with overlay for mobile tap
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'image-container';
+    
+    // Image element
     const img = document.createElement('img');
     img.src = imgSrc;
     img.alt = 'Vision board image';
+    imageContainer.appendChild(img);
     
-    // Mobile: tap image to focus note field
-    if (isMobile) {
-      img.addEventListener('click', function() {
-        const textarea = card.querySelector('textarea');
-        if (textarea) {
-          textarea.focus();
-          // Scroll to the textarea for better visibility
-          textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Overlay for tap-to-focus
+    const overlay = document.createElement('div');
+    overlay.className = 'image-overlay';
+    overlay.innerHTML = '<i class="fas fa-edit"></i>';
+    overlay.addEventListener('click', function() {
+      const textarea = card.querySelector('textarea');
+      if (textarea) {
+        textarea.focus();
+        // Scroll to the textarea for better visibility
+        textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Show keyboard on mobile
+        if (isMobile) {
+          textarea.setAttribute('readonly', true);
+          setTimeout(() => {
+            textarea.removeAttribute('readonly');
+          }, 100);
         }
-      });
-    }
-    card.appendChild(img);
+      }
+    });
+    imageContainer.appendChild(overlay);
+    
+    // Drag instruction for mobile
+    const dragInstruction = document.createElement('div');
+    dragInstruction.className = 'drag-instruction';
+    dragInstruction.textContent = 'Tap & hold to move';
+    imageContainer.appendChild(dragInstruction);
+    
+    card.appendChild(imageContainer);
 
     // Textarea for notes
     const textarea = document.createElement('textarea');
@@ -647,34 +784,100 @@
       }
     });
     
-    // Mobile tap area overlay to prevent accidental drags
-    if (isMobile) {
-      const tapArea = document.createElement('div');
-      tapArea.className = 'mobile-tap-area';
-      tapArea.addEventListener('click', (e) => {
-        // Prevent drag action on taps
-        e.stopPropagation();
-      });
-      card.appendChild(tapArea);
-    }
-    
     actionsDiv.appendChild(deleteBtn);
     card.appendChild(actionsDiv);
 
+    // Attach drag events
+    attachCardEvents(card);
+    
     return card;
   }
 
-  // Enhanced touch event handlers for mobile
-  let touchStartY = 0;
-  let draggingCard = null;
-  let touchTimer = null;
-  let touchStartElement = null;
+  // Enhanced drag-and-drop functionality for all devices
+  function attachCardEvents(card) {
+    // Desktop drag events
+    card.setAttribute('draggable', true);
+    card.addEventListener('dragstart', handleDragStart);
+    card.addEventListener('dragover', handleDragOver);
+    card.addEventListener('drop', handleDrop);
+    card.addEventListener('dragend', handleDragEnd);
 
+    // Touch events for mobile
+    card.addEventListener('touchstart', handleTouchStart, { passive: false });
+    card.addEventListener('touchmove', handleTouchMove, { passive: false });
+    card.addEventListener('touchend', handleTouchEnd, { passive: false });
+    card.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+  }
+
+  function handleDragStart(e) {
+    draggingCard = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.outerHTML);
+    
+    // Create placeholder
+    placeholder = document.createElement('div');
+    placeholder.className = 'vision-card placeholder';
+    placeholder.style.height = this.offsetHeight + 'px';
+    placeholder.style.margin = '10px 0';
+    placeholder.style.border = '2px dashed #d64b8a';
+    placeholder.style.borderRadius = '16px';
+    placeholder.style.opacity = '0.5';
+    
+    // Insert placeholder
+    visionGrid.insertBefore(placeholder, this);
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    if (e.target !== placeholder && e.target.classList.contains('vision-card')) {
+      const rect = e.target.getBoundingClientRect();
+      const next = (e.clientY - rect.top) < (rect.height / 2);
+      visionGrid.insertBefore(placeholder, next ? e.target : e.target.nextSibling);
+    }
+    return false;
+  }
+
+  function handleDrop(e) {
+    e.stopPropagation();
+    if (this === placeholder || this === draggingCard) return;
+    
+    visionGrid.insertBefore(draggingCard, placeholder);
+    boards[currentBoard] = Array.from(visionGrid.children).filter(c => !c.classList.contains('placeholder'));
+    saveBoardsToStorage();
+    
+    // Remove placeholder
+    if (placeholder) {
+      placeholder.remove();
+      placeholder = null;
+    }
+    
+    draggingCard.classList.remove('dragging');
+    draggingCard = null;
+    
+    return false;
+  }
+
+  function handleDragEnd() {
+    if (placeholder) {
+      placeholder.remove();
+      placeholder = null;
+    }
+    
+    if (draggingCard) {
+      draggingCard.classList.remove('dragging');
+      draggingCard = null;
+    }
+  }
+
+  // Enhanced touch event handlers for mobile
   function handleTouchStart(e) {
     // Ignore if touch started on interactive element
     if (e.target.tagName === 'TEXTAREA' || 
         e.target.tagName === 'BUTTON' || 
-        e.target.tagName === 'INPUT') {
+        e.target.tagName === 'INPUT' ||
+        e.target.classList.contains('heart-btn') ||
+        e.target.classList.contains('image-overlay')) {
       return;
     }
 
@@ -690,6 +893,18 @@
         setTimeout(() => {
           mobileNotification.style.display = 'none';
         }, 2000);
+        
+        // Create placeholder for mobile
+        placeholder = document.createElement('div');
+        placeholder.className = 'vision-card placeholder';
+        placeholder.style.height = draggingCard.offsetHeight + 'px';
+        placeholder.style.margin = '10px 0';
+        placeholder.style.border = '2px dashed #d64b8a';
+        placeholder.style.borderRadius = '16px';
+        placeholder.style.opacity = '0.5';
+        
+        // Insert placeholder
+        visionGrid.insertBefore(placeholder, draggingCard);
       }
     }, DRAG_THRESHOLD);
     
@@ -710,18 +925,21 @@
     const touchY = e.touches[0].clientY;
     const deltaY = touchY - touchStartY;
     draggingCard.style.transform = `translateY(${deltaY}px)`;
+    draggingCard.style.zIndex = '1000';
 
     const rect = draggingCard.getBoundingClientRect();
     const midY = rect.top + rect.height / 2;
 
-    const cards = Array.from(visionGrid.children).filter(el => el !== draggingCard);
+    const cards = Array.from(visionGrid.children).filter(el => 
+      el !== draggingCard && !el.classList.contains('placeholder'));
+      
     for (const card of cards) {
       const cardRect = card.getBoundingClientRect();
       if (touchY > cardRect.top && touchY < cardRect.bottom) {
         if (touchY < midY) {
-          visionGrid.insertBefore(draggingCard, card);
+          visionGrid.insertBefore(placeholder, card);
         } else {
-          visionGrid.insertBefore(draggingCard, card.nextSibling);
+          visionGrid.insertBefore(placeholder, card.nextSibling);
         }
         break;
       }
@@ -738,15 +956,25 @@
     
     if (draggingCard.classList.contains('touch-dragging')) {
       draggingCard.style.transform = '';
+      draggingCard.style.zIndex = '';
       draggingCard.classList.remove('touch-dragging');
       
+      // Insert card in placeholder position
+      if (placeholder) {
+        visionGrid.insertBefore(draggingCard, placeholder);
+        placeholder.remove();
+        placeholder = null;
+      }
+      
       // Save new order
-      boards[currentBoard] = Array.from(visionGrid.children);
+      boards[currentBoard] = Array.from(visionGrid.children).filter(c => !c.classList.contains('placeholder'));
       saveBoardsToStorage();
-      showToast('Board order saved!');
+      showToast('Board reorganized!');
     } else {
       // This was a tap, so we might want to focus the textarea
-      if (touchStartElement === draggingCard.querySelector('img')) {
+      if (touchStartElement === draggingCard.querySelector('img') || 
+          touchStartElement === draggingCard.querySelector('.image-container') ||
+          touchStartElement === draggingCard.querySelector('.image-overlay')) {
         const textarea = draggingCard.querySelector('textarea');
         textarea.focus();
         textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -755,54 +983,6 @@
     
     draggingCard = null;
     touchStartElement = null;
-  }
-
-  function attachCardEvents(card) {
-    // Desktop drag events
-    card.setAttribute('draggable', true);
-    card.addEventListener('dragstart', handleDragStart);
-    card.addEventListener('dragover', handleDragOver);
-    card.addEventListener('drop', handleDrop);
-    card.addEventListener('dragend', handleDragEnd);
-
-    // Touch events for mobile
-    card.addEventListener('touchstart', handleTouchStart, { passive: false });
-    card.addEventListener('touchmove', handleTouchMove, { passive: false });
-    card.addEventListener('touchend', handleTouchEnd, { passive: false });
-    card.addEventListener('touchcancel', handleTouchEnd, { passive: false });
-  }
-
-  // Desktop drag-and-drop handlers
-  function handleDragStart(e) {
-    this.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.outerHTML);
-  }
-
-  function handleDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    return false;
-  }
-
-  function handleDrop(e) {
-    e.stopPropagation();
-    if (this.classList.contains('dragging')) return;
-    
-    const dropHTML = e.dataTransfer.getData('text/html');
-    this.insertAdjacentHTML('beforebegin', dropHTML);
-    const dropElem = this.previousSibling;
-    
-    visionGrid.removeChild(document.querySelector('.dragging'));
-    
-    attachCardEvents(dropElem);
-    boards[currentBoard] = Array.from(visionGrid.children);
-    saveBoardsToStorage();
-    return false;
-  }
-
-  function handleDragEnd() {
-    this.classList.remove('dragging');
   }
 
   function enableDragAndDrop() {
@@ -958,6 +1138,16 @@
     e.preventDefault();
     alert("Instagram doesn't support web sharing directly. Please share manually using the Instagram app.");
   });
+  
+  // Show mobile instructions on first visit
+  if (isMobile) {
+    setTimeout(() => {
+      mobileNotification.style.display = 'block';
+      setTimeout(() => {
+        mobileNotification.style.display = 'none';
+      }, 4000);
+    }, 2000);
+  }
 </script>
 </body>
 </html>
