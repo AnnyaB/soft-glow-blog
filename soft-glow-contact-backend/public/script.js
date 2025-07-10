@@ -60,16 +60,6 @@ scrollBtn.addEventListener("click", function () {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-
-/*contact form submission handling*/
-// Ensure the backend server is running at http://localhost:3000
-// and the endpoint /send-message is set up to handle POST requests.
-// The backend code should be similar to the one provided in the initial comment.
-// Make sure to replace the email credentials in the .env file with your own.
-// The backend should be set up to use nodemailer for sending emails.
-// The frontend code below will handle the form submission and display success or error messages.
-// This code assumes you have a backend server running that can handle the POST request to /send-message.
-// The backend should be set up to use nodemailer for sending emails.
 document.getElementById("contactForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -97,3 +87,82 @@ document.getElementById("contactForm").addEventListener("submit", async function
     messageBox.style.color = "red";
   }
 });
+
+document.querySelectorAll('.mood-card').forEach(img => {
+  img.addEventListener('click', () => {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = 0;
+    modal.style.left = 0;
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.6)';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = 9999;
+
+    const modalImg = document.createElement('img');
+    modalImg.src = img.src;
+    modalImg.style.maxWidth = '90%';
+    modalImg.style.maxHeight = '90%';
+    modalImg.style.borderRadius = '16px';
+    modalImg.style.boxShadow = '0 8px 30px rgba(255,255,255,0.3)';
+
+    modal.appendChild(modalImg);
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', () => document.body.removeChild(modal));
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 🌙 TOGGLE LIGHT/DARK MODE
+  const toggleBtn = document.getElementById("toggleMode");
+
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
+      toggleBtn.textContent = "Switch to Light Mode";
+    } else {
+      toggleBtn.textContent = "Switch to Dark Mode";
+    }
+  });
+
+  // 📷 LIGHTBOX for Moodboard
+  document.querySelectorAll('.mood-card img').forEach(img => {
+    img.addEventListener('click', () => {
+      if (document.getElementById('lightbox')) return;
+
+      const lightbox = document.createElement('div');
+      lightbox.id = 'lightbox';
+
+      const imgClone = document.createElement('img');
+      imgClone.src = img.src;
+      lightbox.appendChild(imgClone);
+      document.body.appendChild(lightbox);
+
+      lightbox.addEventListener('click', () => {
+        lightbox.remove();
+      });
+    });
+  });
+
+  // ⬆️ SCROLL-TO-TOP BUTTON
+  const scrollBtn = document.getElementById('scrollToTopBtn');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollBtn.style.display = 'block';
+    } else {
+      scrollBtn.style.display = 'none';
+    }
+  });
+
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
