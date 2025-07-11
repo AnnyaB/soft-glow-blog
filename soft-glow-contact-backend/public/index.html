@@ -8,6 +8,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    #popupModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 240, 246, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .popup-inner {
+      background: white;
+      max-width: 360px;
+      width: 100%;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      text-align: center;
+      font-family: 'Quicksand', sans-serif;
+    }
+    .popup-inner h3 {
+      font-family: 'Playfair Display', serif;
+      color: #d86b92;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    .popup-inner p {
+      color: #666;
+    }
+    .popup-inner input {
+      padding: 10px;
+      width: 90%;
+      margin: 10px 0;
+      border: 1px solid #f3b5c5;
+      border-radius: 10px;
+    }
+    .popup-inner button, .popup-inner a.button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #f3b5c5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .popup-inner .close-btn {
+      margin-top: 10px;
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -36,6 +98,9 @@
   <img src="images/ThePinkGirlLifeLogo.jpg" alt="The Pink Girl Life Logo" style="max-width: 220px; height: auto; display: block; margin: 0 auto 10px; border-radius: 18px; box-shadow: 0 6px 20px rgba(243, 181, 197, 0.4);">
   <h1 style="font-family: 'Playfair Display', serif; font-weight: 600; color: #d86b92; font-size: 2.2em; margin: 10px 0 5px;">The Pink Girl Life</h1>
   <nav style="margin-top: 15px;">
+
+    <a href="#newsletter" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Subscribe</a>
+    <a href="#moodboard" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Mood Board</a>
     <a href="blog.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Blog</a>
     <a href="visionBoard.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">Vision Board</a>
     <a href="about.html" style="margin: 0 12px; color: #d86b92; text-decoration: none; font-family: 'Quicksand', sans-serif;">About</a>
@@ -204,10 +269,96 @@
     <p>© 2025 Soft Glow Blog | Made with love for girlies ✨</p>
   </footer>
 
-  <script src="script.js"></script>
+  <div id="popupModal">
+    <div class="popup-inner">
+      <h3>Hey girl! 💖</h3>
+      <p>Join your girlies & become part of the soft glow community ✨</p>
+      <form id="joinForm">
+        <input id="nameInput" type="text" placeholder="Your name 💕" required>
+        <input id="emailInput" type="email" placeholder="Your email 💌" required>
+        <button type="submit">Join for Free</button>
+      </form>
+      <button class="close-btn" onclick="skipModal()">No thanks</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("toggleMode");
+
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    toggleBtn.textContent = document.body.classList.contains("dark-mode")
+      ? "Switch to Light Mode"
+      : "Switch to Dark Mode";
+  });
+
+  // 🌸 Only show popup if user hasn't already joined
+  const hasJoined = localStorage.getItem("softgirlJoined");
+
+  if (!hasJoined) {
+    setTimeout(() => {
+      const modal = document.getElementById("popupModal");
+      if (modal) {
+        modal.style.display = "flex";
+      }
+    }, 4000); // show after 4 seconds
+  }
+
+  // 💌 Form handling
+  const joinForm = document.getElementById("joinForm");
+  if (joinForm) {
+    joinForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("nameInput").value.trim();
+      const email = document.getElementById("emailInput").value.trim();
+
+      if (name && email) {
+        // Save to localStorage so popup doesn't show again
+        localStorage.setItem("softgirlJoined", "true");
+
+        // Submit form to Formspree via fetch
+        fetch("https://formspree.io/f/mblynzyd", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              document.getElementById("popupModal").innerHTML = `
+                <div style="background: white; max-width: 360px; width: 100%; padding: 30px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); text-align: center;">
+                  <h3 style="font-family: 'Playfair Display', serif; color: #d86b92; font-size: 1.5em; margin-bottom: 10px;">You're in, bestie! 💖</h3>
+                  <p style="font-family: 'Quicksand', sans-serif; color: #666; font-size: 1em;">Welcome to the soft glow club ✨<br/>Enjoy the magic!</p>
+                </div>`;
+              setTimeout(() => {
+                document.getElementById("popupModal").style.display = "none";
+              }, 3000);
+            } else {
+              alert("Oops! Something went wrong. Try again 🌸");
+            }
+          })
+          .catch(() => {
+            alert("Network error. Please try again later 🌧️");
+          });
+      } else {
+        alert("Please enter your name and email 🌸");
+      }
+    });
+  }
+
+  // ❌ No thanks button
+  window.skipModal = function () {
+    document.getElementById("popupModal").style.display = "none";
+  };
+}); 
+  </script>
+
+  
  
   <button id="scrollToTopBtn" title="Go to top">↑</button>
-
 
 </body>
 </html>
