@@ -68,6 +68,98 @@
       font-size: 0.9em;
       cursor: pointer;
     }
+
+    /* 💖 Responsive Modal Styling for All Devices */
+#popupModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 240, 246, 0.95);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+#popupModal .popup-inner {
+  background: white;
+  max-width: 360px;
+  width: 100%;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+#popupModal h3 {
+  font-family: 'Playfair Display', serif;
+  color: #d86b92;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+#popupModal p {
+  font-family: 'Quicksand', sans-serif;
+  color: #666;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+#popupModal input[type="text"],
+#popupModal input[type="email"] {
+  padding: 12px;
+  width: 90%;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #f3b5c5;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1em;
+}
+
+#popupModal button[type="submit"] {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #f3b5c5;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 90%;
+  font-family: 'Quicksand', sans-serif;
+  margin-top: 10px;
+}
+
+#popupModal .close-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 0.9em;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+/* 🌸 Mobile & Tablet Responsive */
+@media (max-width: 768px) {
+  #popupModal .popup-inner {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  #popupModal h3 {
+    font-size: 1.3em;
+  }
+
+  #popupModal p {
+    font-size: 0.95em;
+  }
+}
+
   </style>
 
 </head>
