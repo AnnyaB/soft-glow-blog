@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pinterest Girl Perks</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fff5f7;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .logo-container {
+      text-align: center;
+      padding: 30px 20px 10px;
+    }
+    .logo-container img {
+      width: 200px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(243, 181, 197, 0.4);
+    }
+
+    .perks-container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #fff0f6;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(243, 181, 197, 0.3);
+    }
+
+    .perks-container h2 {
+      text-align: center;
+      color: #d86b92;
+      font-size: 1.8em;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #f3b5c5;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e49aaa;
+    }
+
+    .message {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .perks-container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img src="images/ThePinkGirlLifeLogo.jpg" alt="The Pink Girl Life Logo" />
+  </div>
+
+  <div class="perks-container">
+    <h2>🎀 Unlock Your Soft Glow Perks</h2>
+
+    <form id="signupForm">
+      <input type="text" id="signupName" placeholder="Your Name" required />
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <button type="submit">Sign Up 💖</button>
+    </form>
+
+    <hr style="margin: 30px 0; border: 0; height: 1px; background: #f3b5c5;" />
+
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button type="submit">Login 💫</button>
+    </form>
+
+    <div class="message" id="msgBox"></div>
+  </div>
+
+  <script>
+    const signupForm = document.getElementById("signupForm");
+    const loginForm = document.getElementById("loginForm");
+    const msgBox = document.getElementById("msgBox");
+
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value.trim();
+
+      try {
+        const res = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json();
+        msgBox.textContent = data.message;
+        msgBox.style.color = res.ok ? "green" : "red";
+        if (res.ok) signupForm.reset();
+      } catch (err) {
+        msgBox.textContent = "Something went wrong!";
+        msgBox.style.color = "red";
+      }
+    });
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+        msgBox.textContent = data.message || "Logged in! Redirecting...";
+        msgBox.style.color = res.ok ? "green" : "red";
+
+        if (res.ok && data.token) {
+          localStorage.setItem("softGlowToken", data.token);
+          setTimeout(() => {
+            window.location.href = "/perks.html";
+          }, 1000);
+        }
+      } catch (err) {
+        msgBox.textContent = "Something went wrong!";
+        msgBox.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
+
