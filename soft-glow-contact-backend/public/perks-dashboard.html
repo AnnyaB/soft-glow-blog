@@ -137,10 +137,73 @@
     background: linear-gradient(135deg, #f3b5c5, #e49aaa);
     transform: scale(1.05);
   }
+
+  @media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000 !important;
+  }
+
+  .perk-card, 
+  #wheelCanvas,
+  #walletContainer,
+  #perkResults div,
+  #prizeText {
+    background-color: #fff0f6 !important;
+    color: #111 !important;
+    box-shadow: 0 0 12px rgba(243, 181, 197, 0.3);
+  }
+
+  .perk-card h3,
+  .perk-card p,
+  .perk-card button,
+  h1, h2, #prizeText {
+    color: #111 !important;
+  }
+
+  .perk-card button, #spinButton, #closeModal, #toggleMode {
+    background: #f3b5c5 !important;
+    color: white !important;
+  }
+
+  .perk-card button:hover, #spinButton:hover, #closeModal:hover, #toggleMode:hover {
+    background: #e49aaa !important;
+  }
+
+  footer, footer p {
+    color: #fff !important;
+    background-color: #111 !important;
+  }
+}
+
+h1 {
+  color: #fff !important; /* 🎁 Your Aesthetic Glow-Up Perks */
+}
+
+h2 {
+  color: #fff !important; /* 👛 Your Wallet */
+}
+
+
   </style>
 </head>
 
 <body>
+
+  <button id="toggleMode" style="position: fixed; top: 10px; right: 10px; z-index: 1000; padding: 6px 12px; border-radius: 8px; border: none; background: #f3b5c5; font-weight: bold; cursor: pointer;">
+  Toggle Mode for girlies
+</button>
+
+<script>
+  let lightMode = true;
+  document.getElementById('toggleMode').addEventListener('click', () => {
+    lightMode = !lightMode;
+    document.body.style.background = lightMode ? '#fff5f9' : '#fff5f9';
+    const allTextElements = document.querySelectorAll('body, .perk-card, .perk-card p, .perk-card h3, h1, h2, ul li, #walletContainer, #walletContainer *');
+    allTextElements.forEach(el => el.style.color = '#111');
+  });
+</script>
+
+
   <header style="display: flex; justify-content: center; align-items: center; padding: 30px 20px;">
     <div class="logo-container">
       <img src="images/ThePinkGirlLifeLogo.jpg" alt="The Pink Girl Life Logo" />
@@ -257,6 +320,13 @@
 </script>
 
 <div id="walletSection"></div>
+
+
+<footer style="text-align: center;">
+  <p>© 2025 The Pink Girl life | Made with love for girlies ✨</p>
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
