@@ -124,5 +124,42 @@ app.get('/api/perks', authMiddleware, (req, res) => {
   res.json({ message: `Hello ${req.user.email}, here are your pink girly perks! 💖✨` });
 });
 
+// Wallet Schema & Model
+const WalletSchema = new mongoose.Schema({
+  userId: mongoose.Schema.Types.ObjectId,
+  name: String,
+  description: String,
+  dateEarned: { type: Date, default: Date.now },
+});
+const Wallet = mongoose.model('Wallet', WalletSchema);
+
+// Add Perk to Wallet
+app.post('/api/wallet/add', authMiddleware, async (req, res) => {
+  const { name, description } = req.body;
+  if (!name || !description) return res.status(400).json({ message: "Missing perk data" });
+
+  try {
+    const newPerk = await Wallet.create({
+      userId: req.user.id,
+      name,
+      description
+    });
+    res.status(201).json(newPerk);
+  } catch (err) {
+    res.status(500).json({ message: "Error saving to wallet" });
+  }
+});
+
+// Get Wallet Perks
+app.get('/api/wallet', authMiddleware, async (req, res) => {
+  try {
+    const perks = await Wallet.find({ userId: req.user.id }).sort({ dateEarned: -1 });
+    res.json(perks);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching wallet" });
+  }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

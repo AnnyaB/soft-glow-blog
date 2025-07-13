@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perks Dashboard ✨</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fff5f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .logo-container img {
+      width: 180px;
+      height: auto;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(243, 181, 197, 0.4);
+    }
+
+    h1 {
+      text-align: center;
+      color: #d86b92;
+      margin-bottom: 10px;
+    }
+
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .perk-card {
+      background: #fff0f6;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 12px rgba(243, 181, 197, 0.3);
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    .perk-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 24px rgba(243, 181, 197, 0.5);
+    }
+
+    .perk-card h3 {
+      color: #d86b92;
+    }
+
+    .perk-card p {
+      font-size: 0.95em;
+    }
+
+    .perk-card button {
+      background: #f3b5c5;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      margin-top: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .perk-card button:hover {
+      background: #e49aaa;
+    }
+
+    @media (max-width: 600px) {
+      .perk-card {
+        font-size: 0.9em;
+      }
+    }
+
+    /* Spinner Wheel Modal */
+    #wheelModal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 245, 249, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #wheelCanvas {
+      background: #fff0f6;
+      border-radius: 50%;
+      box-shadow: 0 8px 20px rgba(243, 181, 197, 0.4);
+    }
+
+    #closeModal {
+      margin-top: 30px;
+      background: #f3b5c5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #closeModal:hover {
+      background: #e49aaa;
+    }
+
+    .spin-btn {
+    background: linear-gradient(135deg, #f9d0e3, #f3b5c5);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(243, 181, 197, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .spin-btn:hover {
+    background: linear-gradient(135deg, #f3b5c5, #e49aaa);
+    transform: scale(1.05);
+  }
+  </style>
+</head>
+
+<body>
+  <header style="display: flex; justify-content: center; align-items: center; padding: 30px 20px;">
+    <div class="logo-container">
+      <img src="images/ThePinkGirlLifeLogo.jpg" alt="The Pink Girl Life Logo" />
+    </div>
+  </header>
+
+  <h1>🎁 Your Aesthetic Glow-Up Perks</h1>
+
+  <div class="perks-grid">
+    <div class="perk-card">
+      <h3>🌟 Virtual Compliment Jar</h3>
+      <p>Get 5 loving affirmations crafted just for you.</p>
+      <button onclick="generateCompliments()">Open Jar</button>
+    </div>
+
+    <div class="perk-card">
+      <h3>💖 Custom Mood Board</h3>
+      <p>We generate your personalized vision board instantly!</p>
+      <button onclick="createMoodBoard()">Create Board</button>
+    </div>
+
+    <div class="perk-card">
+      <h3>💎 Digital Glow Badges</h3>
+      <p>Collect badges that reflect your real achievements!</p>
+      <button onclick="collectBadge()">Claim Badge</button>
+    </div>
+
+    <div class="perk-card">
+      <h3>🎨 Dream Avatar</h3>
+      <p>Design your aesthetic digital self for your dashboard.</p>
+      <button onclick="launchAvatarCreator()">Design Now</button>
+    </div>
+
+    <div class="perk-card">
+      <h3>🪄 Daily Sprinkle Magic</h3>
+      <p>Get a surprise inspirational gift to boost your day.</p>
+      <button onclick="sprinkleMagic()">Sprinkle ✨</button>
+    </div>
+  </div>
+
+ <h2 style="text-align:center; color:#d86b92;">👛 Your Wallet</h2>
+<div id="walletContainer" style="padding: 20px; max-width: 1000px; margin: auto;"></div>
+
+  <!-- Spinner Modal -->
+  <!-- Spinner Modal -->
+<div id="wheelModal">
+  <canvas id="wheelCanvas" width="300" height="300"></canvas>
+  <div id="prizeText" style="margin-top: 20px; font-size: 1.2rem; color: #d86b92; font-weight: bold;"></div>
+  <button id="spinButton" class="spin-btn" onclick="spinWheel()">🎀 Spin Now</button>
+  <button id="closeModal" onclick="closeWheel()">Close</button>
+</div>
+
+  <script src="perks.js"></script>
+
+  <!-- Result Display Sections -->
+<div id="perkResults" style="max-width: 800px; margin: 0 auto 50px; padding: 0 20px;">
+  <div id="complimentJarResult"></div>
+  <div id="moodBoardResult"></div>
+  <div id="badgeResult"></div>
+  <div id="avatarResult"></div>
+  <div id="sprinkleMagicResult"></div>
+</div>
+
+<script>
+  function generateCompliments() {
+    const affirmations = [
+      "You are a radiant beam of joy 🌸",
+      "You light up every room you enter ✨",
+      "Your presence is pure magic 💫",
+      "You are loved more than you know 💖",
+      "You’re doing better than you think 💕"
+    ];
+    document.getElementById("complimentJarResult").innerHTML = `
+      <h2 style="color:#d86b92;">🌟 Your Compliments</h2>
+      <ul style="background:#fff0f6; padding:15px; border-radius:10px; list-style:none;">
+        ${affirmations.map(a => `<li style="margin-bottom:8px;">${a}</li>`).join("")}
+      </ul>`;
+  }
+
+  function createMoodBoard() {
+    const images = [
+      "https://i.pinimg.com/originals/f5/65/5c/f5655c3a9c4e497a89b1ea0e7f67814e.jpg",
+      "https://i.pinimg.com/originals/3e/13/df/3e13dfe177f85f1c1213acb0a3c60df0.jpg",
+      "https://i.pinimg.com/originals/e4/3b/e5/e43be57f9bcfe22dc9a90b63aeb6ffb2.jpg"
+    ];
+    document.getElementById("moodBoardResult").innerHTML = `
+      <h2 style="color:#d86b92;">💖 Your Mood Board</h2>
+      <div style="display:flex; gap:15px; flex-wrap:wrap;">
+        ${images.map(img => `<img src="${img}" style="width:150px; border-radius:12px;">`).join("")}
+      </div>`;
+  }
+
+  function collectBadge() {
+    const badge = "🌸 Self-Care Queen";
+    document.getElementById("badgeResult").innerHTML = `
+      <h2 style="color:#d86b92;">💎 New Badge Unlocked!</h2>
+      <div style="font-size:2rem; background:#fff0f6; padding:15px; border-radius:12px;">${badge}</div>`;
+  }
+
+  function launchAvatarCreator() {
+    document.getElementById("avatarResult").innerHTML = `
+      <h2 style="color:#d86b92;">🎨 Dream Avatar</h2>
+      <p style="background:#fff0f6; padding:15px; border-radius:12px;">
+        Launching avatar creator soon... Stay tuned for custom outfits, accessories & more! 👑</p>`;
+  }
+
+  function sprinkleMagic() {
+    const gifts = ["✨ Glitter Quote", "🌈 Rainbow Gratitude Card", "🌸 Digital Hug"];
+    const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
+    document.getElementById("sprinkleMagicResult").innerHTML = `
+      <h2 style="color:#d86b92;">🪄 Your Sprinkle Gift</h2>
+      <div style="font-size:1.5rem; background:#fff0f6; padding:15px; border-radius:12px;">${randomGift}</div>`;
+  }
+</script>
+
+<div id="walletSection"></div>
+
+</body>
+</html>
+
